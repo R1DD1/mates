@@ -1,0 +1,9 @@
+name: Main
+version: '1.0.0'
+main: me.moteloff.mates.main.Main
+api-version: 1.19
+commands:
+  login:
+  event:
+depend:
+  - VK-API
