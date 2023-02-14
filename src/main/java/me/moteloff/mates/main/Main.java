@@ -9,12 +9,10 @@ import me.moteloff.mates.main.listeners.JoinListener;
 import me.moteloff.mates.main.listeners.VkListener;
 import me.moteloff.mates.main.event.Difficulty;
 import me.moteloff.mates.main.event.Location;
-import me.moteloff.mates.main.events.MobArena;
+import me.moteloff.mates.main.event.events.MobArena;
+import me.moteloff.mates.main.managers.EventManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
@@ -22,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 
 public final class Main extends JavaPlugin {
 
@@ -35,10 +34,15 @@ public final class Main extends JavaPlugin {
     private final File configurationFile = new File(getDataFolder(), "event.yml");
     private final FileConfiguration configuration = YamlConfiguration.loadConfiguration(configurationFile);
 
+    private final EventManager eventManager = new EventManager();
+
 
     @Override
     public void onEnable() {
         instance = this;
+
+        eventManager.register();
+
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new VkListener(), this);
         getServer().getPluginManager().registerEvents(new CanceledActions(), this);
@@ -46,13 +50,14 @@ public final class Main extends JavaPlugin {
 
         databaseConstructor.createTable();
 
-        getServer().getPluginCommand("login").setExecutor(new Login());
-        getServer().getPluginCommand("event").setExecutor(new Event());
+        Objects.requireNonNull(getServer().getPluginCommand("login")).setExecutor(new Login());
+        Objects.requireNonNull(getServer().getPluginCommand("event")).setExecutor(new Event());
 
         eventInv = Bukkit.createInventory(null, 9, Component.text(" "));
-        activeEvent = new MobArena(Difficulty.IMPOSSIBLE, Location.WINTER);
-        activeEvent.register();
     }
+
+    @Override
+    public void onDisable() {eventManager.unregister();}
 
     public static Main getInstance() { return instance; }
 

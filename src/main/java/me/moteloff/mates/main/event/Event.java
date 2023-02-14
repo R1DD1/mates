@@ -29,6 +29,8 @@ public interface Event {
     default void unregister() {}
 
     default void start() {}
+
+    default void end() {}
 }
 
 

@@ -1,4 +1,4 @@
-package me.moteloff.mates.main.events;
+package me.moteloff.mates.main.event.events;
 
 import me.moteloff.mates.main.Main;
 import me.moteloff.mates.main.event.Difficulty;
@@ -100,6 +100,6 @@ public class MobArena implements Event {
 
     @Override
     public void start() {
-
+        //spawn mobs
     }
 }

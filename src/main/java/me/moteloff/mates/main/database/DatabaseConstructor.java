@@ -1,6 +1,8 @@
 package me.moteloff.mates.main.database;
 
 import me.moteloff.mates.main.Main;
+import me.moteloff.mates.main.listeners.PlayerSwitchClassEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
@@ -105,6 +107,10 @@ public class DatabaseConstructor {
             statement.setString(1, playerClass);
             statement.setString(2, player.getName());
             statement.executeUpdate();
+
+            PlayerSwitchClassEvent event = new PlayerSwitchClassEvent(player, playerClass);
+            Bukkit.getPluginManager().callEvent(event);
+
             conn.close();
             statement.close();
         } catch (SQLException e) {
