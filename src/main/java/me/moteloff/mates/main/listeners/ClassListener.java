@@ -20,51 +20,57 @@ public class ClassListener implements Listener {
 
     @EventHandler
     public void onClassSwitch(PlayerSwitchClassEvent e) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        Class rpgClass = Class.forName("me.moteloff.mates.main.classes." + e.getPlayerClass());
-
-        Method[] methods = rpgClass.getMethods();
-
-        for (Method method : methods) {
-            if (method.getName().equals("onChoice")) {
-                Object swordsman = rpgClass.newInstance();
-                method.invoke(swordsman, e.getPlayer());
-            }
-        }
+        callMethod("me.moteloff.mates.main.classes." + e.getPlayerClass(), "onChoice", e.getPlayer());
     }
 
     @EventHandler
-    public void onHit(EntityDamageByEntityEvent e) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public void onGetDamage(EntityDamageByEntityEvent e) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Entity entity = e.getEntity();
         Entity damager = e.getDamager();
         if (damager instanceof Player) {
             Player player = (Player) e.getDamager();
             String playerClass = database.getPlayerClass(player);
             if (playerClass != null) {
-                Class rpgClass = Class.forName("me.moteloff.mates.main.classes." + playerClass);
-
-                Method[] methods = rpgClass.getMethods();
-
-                for (Method method : methods) {
-                    if (method.getName().equals("onHit")) {
-                        Object obj = rpgClass.newInstance();
-                        method.invoke(obj, player, (LivingEntity) entity);
-                    }
+                LivingEntity entity1 = (LivingEntity) entity;
+                callMethod("me.moteloff.mates.main.classes." + playerClass, "onHit", player, entity);
+                if (entity1.getHealth() <= e.getDamage()) {
+                    callMethod("me.moteloff.mates.main.classes." + playerClass, "onKill", player);
                 }
             }
         } else if (entity instanceof Player) {
             Player player = (Player) e.getEntity();
             String playerClass = database.getPlayerClass(player);
             if (playerClass != null) {
-                Class rpgClass = Class.forName("me.moteloff.mates.main.classes." + playerClass);
-
-                Method[] methods = rpgClass.getMethods();
-
-                for (Method method : methods) {
-                    if (method.getName().equals("onDamaged")) {
-                        Object obj = rpgClass.newInstance();
-                        method.invoke(obj, player, (LivingEntity) damager);
-                    }
+                callMethod("me.moteloff.mates.main.classes." + playerClass, "onDamaged", player, damager);
+                if (player.getHealth() <= e.getDamage()) {
+                    callMethod("me.moteloff.mates.main.classes." + playerClass, "onDeath", player);
                 }
+            }
+        }
+    }
+
+    private void callMethod(String className, String methodName, Player player, Entity entity) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Class rpgClass = Class.forName(className);
+
+        Method[] methods = rpgClass.getMethods();
+
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                Object obj = rpgClass.newInstance();
+                method.invoke(obj, player, (LivingEntity) entity);
+            }
+        }
+    }
+
+    private void callMethod(String className, String methodName, Player player) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Class rpgClass = Class.forName(className);
+
+        Method[] methods = rpgClass.getMethods();
+
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                Object obj = rpgClass.newInstance();
+                method.invoke(obj, player);
             }
         }
     }
