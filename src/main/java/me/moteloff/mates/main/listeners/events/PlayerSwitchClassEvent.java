@@ -1,4 +1,4 @@
-package me.moteloff.mates.main.listeners;
+package me.moteloff.mates.main.listeners.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

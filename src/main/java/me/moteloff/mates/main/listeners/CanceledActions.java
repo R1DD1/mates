@@ -22,10 +22,10 @@ public class CanceledActions implements Listener {
         }
     }
 
-    @EventHandler
-    public void onAttack(EntityDamageByEntityEvent e) {
-        if (JoinListener.joiners.containsKey((Player) e.getDamager()) || JoinListener.joiners.containsKey((Player) e.getEntity())) {
-            e.setCancelled(true);
-        }
-    }
+//    @EventHandler
+//    public void onAttack(EntityDamageByEntityEvent e) {
+//        if (JoinListener.joiners.containsKey((Player) e.getDamager()) || JoinListener.joiners.containsKey((Player) e.getEntity())) {
+//            e.setCancelled(true);
+//        }
+//    }
 }

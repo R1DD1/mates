@@ -3,6 +3,7 @@ package me.moteloff.mates.main.listeners;
 import me.moteloff.mates.main.Main;
 import me.moteloff.mates.main.database.DatabaseConstructor;
 import me.moteloff.mates.main.utils.Formatting;
+import me.moteloff.mates.main.utils.entitybuilder.EntityBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 public class JoinListener implements Listener {
 
-    DatabaseConstructor databaseConstructor = DatabaseConstructor.INSTANCE;
+    DatabaseConstructor databaseConstructor = DatabaseConstructor.getInstance();
     Main plugin = Main.getInstance();
 
     public static final HashMap<Player, Integer> joiners = new HashMap<>();
@@ -26,13 +27,13 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        if (!databaseConstructor.exist(player.getName())) {
+        if (!databaseConstructor.exists(player.getName())) {
             player.kick(Component.text(Objects.requireNonNull(plugin.getConfig().getString("kick_messages.unknown_player"))));
         }
 
         player.sendMessage(Formatting.translate(Objects.requireNonNull(plugin.getConfig().getString("messages.join_msg"))));
         joiners.put(player, 3);
-        e.joinMessage(null);
+
     }
 
     @EventHandler

@@ -20,7 +20,7 @@ public class VkListener implements Listener {
     private static final GroupActor ACTOR = (BukkitVkApiPlugin.getPlugin(BukkitVkApiPlugin.class)).getVkApiProvider().getActor();
     private static final Random RANDOM = new Random();
 
-    private final DatabaseConstructor databaseConstructor = DatabaseConstructor.INSTANCE;
+    private final DatabaseConstructor databaseConstructor = DatabaseConstructor.getInstance();
     private final Main plugin = Main.getInstance();
 
     @EventHandler
@@ -34,7 +34,7 @@ public class VkListener implements Listener {
             String[] args = e.getMessage().getText().split(" ");
             String username = args[1];
             String pass = args[2];
-            if (databaseConstructor.exist(username)) {
+            if (databaseConstructor.exists(username)) {
                 CLIENT.messages().send(ACTOR).randomId(RANDOM.nextInt()).peerId(e.getPeer()).message(
                         plugin.getConfig().getString("vk_messages.already_exist")
                 ).execute();
@@ -52,7 +52,7 @@ public class VkListener implements Listener {
         if (e.getMessage().getText().startsWith(".restorepass")) {
             String[] args = e.getMessage().getText().split(" ");
             String username = args[1];
-            if (databaseConstructor.exist(username)) {
+            if (databaseConstructor.exists(username)) {
                 String password = databaseConstructor.restorePass(username, e.getUserId());
                 if (password != null) {
                     CLIENT.messages().send(ACTOR).randomId(RANDOM.nextInt()).peerId(e.getPeer()).message(

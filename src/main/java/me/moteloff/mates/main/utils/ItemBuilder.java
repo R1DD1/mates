@@ -1,31 +1,35 @@
 package me.moteloff.mates.main.utils;
 
+import me.moteloff.mates.main.Main;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItemBuilder {
-    private Material type = Material.ACACIA_BOAT;
-    private int amount = 1;
+    private final Main plugin = Main.getInstance();
+
+    private ItemStack itemStack;
     private Component displayName = Component.text("Предмет");
     private List<Component> lore = new ArrayList<>();
     private Enchantment[] enchantments = new Enchantment[]{};
     private ItemFlag[] itemFlags = new ItemFlag[]{};
 
-    public ItemBuilder type(Material type) {
-        this.type = type;
-        return this;
+    public ItemBuilder(Material type, int amount) {
+        itemStack = new ItemStack(type, amount);
     }
 
-    public ItemBuilder amount(int amount) {
-        this.amount = amount;
-        return this;
+    public ItemBuilder(Material type) {
+        itemStack = new ItemStack(type);
     }
 
     public ItemBuilder displayName(String string) {
@@ -50,8 +54,15 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder data(String key, String value) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        container.set(new NamespacedKey(plugin, key), PersistentDataType.STRING, value);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
     public ItemStack build() {
-        ItemStack itemStack = new ItemStack(type, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.displayName(displayName);
         itemMeta.lore(lore);

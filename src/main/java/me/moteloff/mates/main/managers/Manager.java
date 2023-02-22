@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 public interface Manager {
 
-    default  void register() {}
+    default void register() {}
 
     default  void unregister() {
 

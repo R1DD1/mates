@@ -8,11 +8,10 @@ import org.bukkit.Bukkit;
 
 public class EventManager implements Manager{
 
-    private final Main plugin = Main.getInstance();
 
     @Override
     public void register() {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, ()-> {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), ()-> {
             Main.activeEvent = new MobArena(Difficulty.HARD, Location.WINTER);
             Main.activeEvent.register();
         }, 100L);
@@ -20,6 +19,6 @@ public class EventManager implements Manager{
 
     @Override
     public void unregister() {
-        Main.activeEvent.unregister();
+//        Main.activeEvent.unregister();
     }
 }
