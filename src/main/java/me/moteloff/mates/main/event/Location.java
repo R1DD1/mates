@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public enum Location {
-    WINTER(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.winter")), new org.bukkit.Location(Bukkit.getWorld("world"), 0, 270, 3000)),
-    JUNGLE(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.jungle")), new org.bukkit.Location(Bukkit.getWorld("world"), 100, 270, 3000)),
-    WATER(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.water")), new org.bukkit.Location(Bukkit.getWorld("world"), 200, 270, 3000)),
-    FIRE(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.fire")), new org.bukkit.Location(Bukkit.getWorld("world"), 300, 270, 3000)),
-    SKY(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.sky")), new org.bukkit.Location(Bukkit.getWorld("world"), 400, 270, 3000));
-
+    WINTER_MOB(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.winter")), new org.bukkit.Location(Bukkit.getWorld("world"), 0, 270, 3000)),
+    JUNGLE_MOB(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.jungle")), new org.bukkit.Location(Bukkit.getWorld("world"), 100, 270, 3000)),
+    WATER_MOB(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.water")), new org.bukkit.Location(Bukkit.getWorld("world"), 200, 270, 3000)),
+    FIRE_MOB(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.fire")), new org.bukkit.Location(Bukkit.getWorld("world"), 300, 270, 3000)),
+    SKY_MOB(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.sky")), new org.bukkit.Location(Bukkit.getWorld("world"), 400, 270, 3000)),
+    ROOM_QUIZ(Formatting.translate(Main.getInstance().getEventCfg().getString("mob_arena.location.winter")), new org.bukkit.Location(Bukkit.getWorld("world"), 0, 270, 3000));
     private String title;
     private org.bukkit.Location location;
 

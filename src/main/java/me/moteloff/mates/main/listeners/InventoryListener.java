@@ -33,10 +33,10 @@ public class InventoryListener implements Listener {
                 if (Main.activeEvent.getCanJoin()) {
                     Main.activeEvent.addPlayer(player);
                     player.teleport(Main.activeEvent.getLocation().getLocation());
-                    Main.activeEvent.getLocation().getLocation().getBlock().setType(Material.DIRT);
+                    if (Main.activeEvent.getPlayers().contains(player)) {Main.activeEvent.addPlayer(player);}
                     player.closeInventory();
                 } else {
-                    player.sendMessage(Formatting.translate(plugin.getConfig().getString("mob_arena.cant_join")));
+                    player.sendMessage(Formatting.translate(plugin.getConfig().getString("event.cant_join")));
                 }
             }
             e.setCancelled(true);

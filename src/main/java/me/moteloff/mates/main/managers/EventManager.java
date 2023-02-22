@@ -13,7 +13,7 @@ public class EventManager implements Manager{
     @Override
     public void register() {
         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), ()-> {
-            Main.activeEvent = new Quiz();
+            Main.activeEvent = new Quiz(Location.ROOM_QUIZ);
             Main.activeEvent.register();
         }, 100L);
     }
