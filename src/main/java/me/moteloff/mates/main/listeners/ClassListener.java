@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,6 +48,14 @@ public class ClassListener implements Listener {
                 }
             }
         }
+    }
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Player player = e.getPlayer();
+        String playerClass = database.getPlayerClass(player);
+        if(playerClass != null) {
+            callMethod("me.moteloff.mates.main.classes." + playerClass, "onBlockBreak", player);
+        } // хз правильно или нет если чо исправь
     }
 
     private void callMethod(String className, String methodName, Player player, Entity entity) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {

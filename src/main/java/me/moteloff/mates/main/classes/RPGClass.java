@@ -10,4 +10,5 @@ public interface RPGClass {
     default void onDamaged(Player player, LivingEntity entity){}
     default void onDeath(Player player){}
     default void onKill(Player player){}
+    default void onBlockBreak(Player player){}
 }

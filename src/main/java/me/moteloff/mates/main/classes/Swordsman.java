@@ -7,7 +7,7 @@ public class Swordsman implements RPGClass{
     @Override
     public void onChoice(Player player) {
         //Что происходит при принятии класс Swordsman
-        player.sendMessage("Ку");
+        player.sendMessage("Вы выбрали мечника");
     }
 
     @Override
@@ -32,6 +32,11 @@ public class Swordsman implements RPGClass{
     public void onKill(Player player) {
         //Что происходит когда игрока с классом Swordsman убивает
         player.sendMessage("Лох");
+    }
+
+    @Override
+    public void onBlockBreak(Player player) {
+        player.sendMessage("Вы уничтожили блок");
     }
 
 }
